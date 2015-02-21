@@ -20,8 +20,8 @@ const string PROMPT_4_1ST_NUMBER  = " Enter the first number to test: ";
 const string PROMPT_4_LAST_NUMBER = " Enter the last number to test: ";
 
 const int NOTHING = 0; 
-const int LOWEST_NUMBER = 1.0; 
-const int HIGHEST_NUMBER = 999.0;
+const int LOWEST_NUMBER = 1; 
+const int HIGHEST_NUMBER = 999;
 
 const int IGNORE_BUFFER = 100; 
 
@@ -33,11 +33,14 @@ const int BEEP_2_TIME = 200;
 
 void getTwoNumbers(string firstQuestion, string secondQuestion, int highestNumber, int& firstNumber, int& lastNumber);
 unsigned int sumSquaredDigits(unsigned int n);
+int sum(int n);
 
 int main()
 {
 	int firstNumber = 0; 
 	int lastNumber = 0; 
+
+	
 
 	cout << PROGRAM_DESCRIPTION;
 	cout << "\n\n"; 
@@ -49,9 +52,26 @@ int main()
 	cout << "\n now last number is " << lastNumber << endl;
 
 	cout << "\n\n";
+	static int temp = firstNumber;
+
+	
+	
+	
+	static int loopCounter; 
+
+	do
+	{
+		cout << temp;
+		cout << endl; 
+		temp  = sum(temp);
+		cout << temp; 
+		cout << endl;
+		loopCounter++; 
 
 
-	cout << sumSquaredDigits(firstNumber); 
+
+	} while ((temp != 1) && (loopCounter <= 50));
+
 
 	return NOTHING; 
 
@@ -82,10 +102,10 @@ void getTwoNumbers(string firstQuestion, string secondQuestion, int highestNumbe
 	
 	cout << PROMPT_4_LAST_NUMBER; 
 
-	while ((!(cin >> lastNumber)) || (lastNumber <= NOTHING) || (lastNumber >= firstNumber))
+	while ((!(cin >> lastNumber)) || (lastNumber <= firstNumber) || (lastNumber >= highestNumber))
 	{
 		errorBeep();
-		cout << " Error -- Must be a number greater than " << NOTHING << " and less than " << firstNumber << " - Please try again" << endl << endl;
+		cout << " Error -- Must be a number greater than " << firstNumber << " and less than " << highestNumber << " - Please try again" << endl << endl;
 		cout << secondQuestion;
 		cin.clear();
 		cin.ignore(IGNORE_BUFFER, '\n');
@@ -94,19 +114,38 @@ void getTwoNumbers(string firstQuestion, string secondQuestion, int highestNumbe
 
 }
 
-		unsigned int sumSquaredDigits(unsigned int n) 
-
-		while (n != 1){
-		{
-			unsigned int result = 0;
-			while (n) {
-				unsigned int t = n % 10;
-				result += t * t;
-				n /= 10;
-			}
-			return result;
-		}
+unsigned int sumSquaredDigits(unsigned int n) 
+{
+	unsigned int result = 0;
+	unsigned int final = 0;
 
 
+	while (n) {
+		unsigned int t = n % 10;
+		result += t * t;
+		n = n/10;
+	}
+	return result;
+}
 
+/*
+int sum(int n)
+{
+	if (n)
+	{
+		int d = n % 10;
+		return d * d + sum(n / 10);
+	}
+	return 0;
+}
+*/
 	
+int sum(int n)
+{
+	if (n)
+	{
+		int d = n % 10;
+		return d * d + sum(n / 10);
+	}
+	return 0;
+}
